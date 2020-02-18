@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - wechatwork_kit (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - wechatwork_kit (from `.symlinks/plugins/wechatwork_kit/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  wechatwork_kit:
+    :path: ".symlinks/plugins/wechatwork_kit/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  wechatwork_kit: 7445601791a5bc2481331b452c83f97427b8280c
+
+PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+
+COCOAPODS: 1.8.4
