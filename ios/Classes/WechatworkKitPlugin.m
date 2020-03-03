@@ -8,6 +8,7 @@
 @end
 
 @implementation WechatworkKitPlugin
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
       methodChannelWithName:@"wechatwork_kit"
@@ -38,7 +39,7 @@
 }
 
 - (NSMutableDictionary *)flutterResultDictonary {
-    if (self->_flutterResultDictonary) {
+    if (!self->_flutterResultDictonary) {
         self->_flutterResultDictonary = [NSMutableDictionary new];
     }
     return self->_flutterResultDictonary;
@@ -46,10 +47,7 @@
 
 # pragma mark - AppDelegate
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [self handleOpenURL:url sourceApplication:sourceApplication];
-}
-- (BOOL)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication {
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
     return [WWKApi handleOpenURL:url delegate:self];
 }
 
@@ -75,10 +73,10 @@
     if ([resp isKindOfClass:[WWKSSOResp class]]) {
         FlutterResult result = [self.flutterResultDictonary objectForKey:((WWKSSOResp *)resp).state];
         if (!result) return;
-        if (resp.errStr != nil) {
-            result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", resp.errCode] message:resp.errStr details:resp]);
+        if (resp.errCode != 0) {
+            result([FlutterError errorWithCode:[NSString stringWithFormat:@"%d", resp.errCode] message:resp.errStr details:nil]);
         } else {
-            ///  TODO  取出code
+            result([(WWKSSOResp *)resp code]);
         }
         [self.flutterResultDictonary removeObjectForKey:((WWKSSOResp *)resp).state];
     }
