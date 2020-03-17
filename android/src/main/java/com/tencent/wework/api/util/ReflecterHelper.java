@@ -6,24 +6,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-/**
- * 类的字段方法获取工具类，为了提高效率，采用了状态机的工作方式
- * 
- * @author boyliang
- */
 public final class ReflecterHelper {
 
 	private static final String LOG_TAG = "ReflecterHelper";
 
 	public static Class<?> mCurrentClass;
 
-	/**
-	 * 设置
-	 * 
-	 * @param name
-	 *            类的完整路径
-	 * @return 是否设置成功
-	 */
 	public final static boolean setClass(String name) {
 		Class<?> tmpClass = null;
 		try {
@@ -83,14 +71,6 @@ public final class ReflecterHelper {
 		return field;
 	}
 
-	/**
-	 * 得到某个类的静态属性
-	 * 
-	 * @param className
-	 * @param fieldName
-	 * @return
-	 * @throws Exception
-	 */
 	public static Object getStaticProperty(String className, String fieldName) {
 		setClass(className);
 		Field field = getField(fieldName);
@@ -126,14 +106,6 @@ public final class ReflecterHelper {
 		}
 	}
 
-	/**
-	 * 实例化对象；； 只支持 没有null对象和 只有String对象是null的情况
-	 * 
-	 * @param className
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 */
 	static public Object newInstance(String className, Object[] args) throws Exception {
 		Class<?> newoneClass = Class.forName(className);
 		Constructor<?> cons = newoneClass.getDeclaredConstructor(getArgsClasses(args));
@@ -141,54 +113,19 @@ public final class ReflecterHelper {
 		return cons.newInstance(args);
 	}
 
-	/**
-	 * 实例化对象
-	 * 
-	 * @param className
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 */
 	static public Object newInstance(String className) throws Exception {
 		return newInstance(className, (Object[]) null);
 	}
 
-	/**
-	 * 执行某对象的方法； 只支持 没有null对象和 只有String对象是null的情况
-	 * 
-	 * @param owner
-	 * @param methodName
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 */
 	static public Object invokeMethod(Object owner, String methodName, Object[] args)
 			throws Exception {
 		return invokeMethod(owner, methodName, getArgsClasses(args), args);
 	}
 
-	/**
-	 * 执行某对象的无参方法
-	 * 
-	 * @param owner
-	 * @param methodName
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 */
 	static public Object invokeMethod(Object owner, String methodName) throws Exception {
 		return invokeMethod(owner, methodName, null);
 	}
 
-	/**
-	 * 执行某对象的方法
-	 * 
-	 * @param owner
-	 * @param methodName
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 */
 	static public Object invokeMethod(Object owner, String methodName, Class<?> argsClass[],
 			Object[] args) throws Exception {
 		Class<?> ownerClass = owner.getClass();
@@ -207,15 +144,6 @@ public final class ReflecterHelper {
 		method.setAccessible(true);
 		return method.invoke(owner, args);
 	}
-
-	/**
-	 * 获取某对象的属性
-	 * 
-	 * @param owner
-	 * @param fieldName
-	 * @return
-	 * @throws Exception
-	 */
 	public static Object getProperty(Object owner, String fieldName) throws Exception {
 
 		Field field = getFieldInternal(owner, fieldName);
@@ -350,17 +278,6 @@ public final class ReflecterHelper {
 		return ret;
 	}
 
-	/**
-	 * 只支持 没有null对象和 只有String对象是null的情况
-	 * 
-	 * @param className
-	 * @param methodName
-	 * @param args
-	 * @return
-	 * @throws Exception
-	 * 
-	 * @author yuanhanhu in 2013-5-10
-	 */
 	public static Object invokeStaticMethod(String className, String methodName, Object args[])
 			throws Exception {
 		return invokeStaticMethod(className, methodName, args, getArgsClasses(args));

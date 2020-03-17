@@ -3,10 +3,6 @@ package com.tencent.wework.api.model;
 import android.os.Bundle;
 import android.util.Log;
 
-/**
- * Created by hu on 16/5/30.
- * Œª÷√
- */
 public class WWMediaLocation extends WWMediaMessage.WWMediaObject {
     private static final String TAG = "WWAPI.WWMediaLocation";
     private static final int LENGTH_LIMIT = 10240;
