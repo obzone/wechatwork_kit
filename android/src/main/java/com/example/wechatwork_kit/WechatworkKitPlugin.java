@@ -85,6 +85,8 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
           }
         }
       });
+    }else if (call.method.equals("isWWAppInstalled")){
+      result.success(iwwapi.isWWAppInstalled());
     } else {
       result.notImplemented();
     }

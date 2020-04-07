@@ -33,6 +33,8 @@
       WWKSSOReq *req = [WWKSSOReq new];
       req.state = resultKey;
       [WWKApi sendReq:req];
+  } else if ([@"isWWAppInstalled" isEqualToString:call.method]) {
+      result(@([WWKApi isAppInstalled]));
   } else {
     result(FlutterMethodNotImplemented);
   }

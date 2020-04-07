@@ -25,4 +25,8 @@ class WechatworkKit {
   static Future sso() {
     return _channel.invokeMethod('SSO');
   }
+
+  static Future isWWAppInstalled() {
+    return _channel.invokeMethod('isWWAppInstalled');
+  }
 }
