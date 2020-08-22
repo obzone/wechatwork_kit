@@ -35,6 +35,15 @@
       [WWKApi sendReq:req];
   } else if ([@"isWWAppInstalled" isEqualToString:call.method]) {
       result(@([WWKApi isAppInstalled]));
+  } else if ([@"imageShare" isEqualToString:call.method]) {
+      WWKSendMessageReq *req = [[WWKSendMessageReq alloc] init];
+      WWKMessageImageAttachment *attachment = [[WWKMessageImageAttachment alloc] init];
+      // 示例用图片，请填写你想分享的实际图片路径和名称
+      attachment.filename =call.arguments[@"filename"];
+      NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+      attachment.path = [NSString stringWithFormat:@"%@/%@", paths.firstObject, call.arguments[@"filename"]];
+      req.attachment = attachment;
+      [WWKApi sendReq:req];
   } else {
     result(FlutterMethodNotImplemented);
   }

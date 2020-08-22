@@ -11,15 +11,8 @@ class WechatworkKit {
     return version;
   }
 
-  static Future registerApp(
-      {@required String schema,
-      @required String corpId,
-      @required String agentId}) {
-    return _channel.invokeMethod('registerApp', <String, dynamic>{
-      'schema': schema,
-      'corpId': corpId,
-      'agentId': agentId
-    });
+  static Future registerApp({@required String schema, @required String corpId, @required String agentId}) {
+    return _channel.invokeMethod('registerApp', <String, dynamic>{'schema': schema, 'corpId': corpId, 'agentId': agentId});
   }
 
   static Future sso() {
@@ -34,5 +27,11 @@ class WechatworkKit {
  */
   static Future isWWAppInstalled() {
     return _channel.invokeMethod('isWWAppInstalled');
+  }
+
+  static Future imageShare(String filename) {
+    return _channel.invokeMethod('imageShare', <String, dynamic>{
+      'filename': filename,
+    });
   }
 }
