@@ -1,5 +1,7 @@
 package com.example.wechatwork_kit;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.tencent.wework.api.IWWAPI;
@@ -7,6 +9,7 @@ import com.tencent.wework.api.IWWAPIEventHandler;
 import com.tencent.wework.api.WWAPIFactory;
 import com.tencent.wework.api.model.BaseMessage;
 import com.tencent.wework.api.model.WWAuthMessage;
+import com.tencent.wework.api.model.WWMediaImage;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -14,6 +17,7 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.util.PathUtils;
 
 /** WechatworkKitPlugin */
 public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
@@ -37,11 +41,13 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "wechatwork_kit");
     WechatworkKitPlugin plugin = new WechatworkKitPlugin(registrar, channel);
     channel.setMethodCallHandler(plugin);
+    plugin.context = registrar.context();
   }
 
   private String APPID = "";
   private String AGENTID = "";
   private String SCHEMA = "";
+  private Context context;
 
   private IWWAPI iwwapi = null;
 
@@ -87,6 +93,17 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
       });
     }else if (call.method.equals("isWWAppInstalled")){
       result.success(iwwapi.isWWAppInstalled());
+    }else if (call.method.equals("imageShare")){
+
+      WWMediaImage img = new WWMediaImage();
+      img.fileName = call.argument("fileName");;
+      img.filePath = PathUtils.getDataDirectory(context) + '/' + call.argument("fileName");
+//      img.appPkg = getPackageName();
+//      img.appName = getString(stringId);
+      img.appId = APPID;
+      img.agentId = AGENTID;
+      iwwapi.sendMessage(img);
+      result.success(true);
     } else {
       result.notImplemented();
     }

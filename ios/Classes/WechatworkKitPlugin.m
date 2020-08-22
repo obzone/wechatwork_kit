@@ -44,6 +44,7 @@
       attachment.path = [NSString stringWithFormat:@"%@/%@", paths.firstObject, call.arguments[@"filename"]];
       req.attachment = attachment;
       [WWKApi sendReq:req];
+      result(@"success");
   } else {
     result(FlutterMethodNotImplemented);
   }
