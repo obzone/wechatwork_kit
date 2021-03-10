@@ -60,7 +60,7 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
       this.SCHEMA = call.argument("schema");
       this.APPID = call.argument("corpId");
       this.AGENTID = call.argument("agentId");
-      iwwapi = WWAPIFactory.createWWAPI(flutterPluginBinding.getApplicationContext());
+      iwwapi = WWAPIFactory.createWWAPI(pluginBinding.getApplicationContext());
       iwwapi.registerApp(this.SCHEMA);
       result.success(null);
     } else if (call.method.equals("SSO")) {
