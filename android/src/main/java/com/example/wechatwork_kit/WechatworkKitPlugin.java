@@ -21,11 +21,12 @@ import io.flutter.util.PathUtils;
 
 /** WechatworkKitPlugin */
 public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
+  private MethodChannel channel;
+
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wechatwork_kit");
-    WechatworkKitPlugin plugin = new WechatworkKitPlugin(registrar, channel);
-    channel.setMethodCallHandler(plugin);
+    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wechatwork_kit");
+    channel.setMethodCallHandler(this);
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -39,9 +40,7 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
   // in the same class.
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "wechatwork_kit");
-    WechatworkKitPlugin plugin = new WechatworkKitPlugin(registrar, channel);
-    channel.setMethodCallHandler(plugin);
-    plugin.context = registrar.context();
+    channel.setMethodCallHandler(new WechatworkKitPlugin());
   }
 
   private String APPID = "";
@@ -50,14 +49,6 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
   private Context context;
 
   private IWWAPI iwwapi = null;
-
-  private final Registrar registrar;
-  private final MethodChannel channel;
-
-  private WechatworkKitPlugin(Registrar registrar, MethodChannel channel) {
-    this.registrar = registrar;
-    this.channel = channel;
-  }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull final Result result) {
@@ -111,5 +102,6 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    channel.setMethodCallHandler(null);
   }
 }
