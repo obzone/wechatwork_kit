@@ -22,10 +22,12 @@ import io.flutter.util.PathUtils;
 /** WechatworkKitPlugin */
 public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
   private MethodChannel channel;
+  private FlutterPluginBinding pluginBinding;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wechatwork_kit");
+    pluginBinding = flutterPluginBinding;
     channel.setMethodCallHandler(this);
   }
 
@@ -58,7 +60,7 @@ public class WechatworkKitPlugin implements FlutterPlugin, MethodCallHandler {
       this.SCHEMA = call.argument("schema");
       this.APPID = call.argument("corpId");
       this.AGENTID = call.argument("agentId");
-      iwwapi = WWAPIFactory.createWWAPI(this.registrar.context().getApplicationContext());
+      iwwapi = WWAPIFactory.createWWAPI(flutterPluginBinding.getApplicationContext());
       iwwapi.registerApp(this.SCHEMA);
       result.success(null);
     } else if (call.method.equals("SSO")) {
