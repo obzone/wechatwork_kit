@@ -34,5 +34,5 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation files('libs/lib_wwapi-2.0.12.11.aar')
 }
